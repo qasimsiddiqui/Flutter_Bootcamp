@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 void main() {
   runApp(const MyApp());
@@ -68,6 +70,14 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  final Uri _url = Uri.parse('sms:5550101234');
+
+  Future<void> _launchUrl() async {
+    if (!await launchUrl(_url)) {
+      throw Exception('Could not launch $_url');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
@@ -105,12 +115,22 @@ class _MyHomePageState extends State<MyHomePage> {
           // wireframe for each widget.
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text(
+            Text(
               'You have pushed the button this many times:',
+              style: GoogleFonts.poppins(
+                textStyle: const TextStyle(
+                    color: Colors.blue, letterSpacing: .5, fontSize: 25),
+              ),
             ),
             Text(
               '$_counter',
               style: Theme.of(context).textTheme.headlineMedium,
+            ),
+            Center(
+              child: ElevatedButton(
+                onPressed: _launchUrl,
+                child: const Text('Show Flutter homepage'),
+              ),
             ),
           ],
         ),
